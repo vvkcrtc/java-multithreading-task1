@@ -15,7 +15,8 @@ public class Main {
                 this.text = text;
             }
 
-            void process() {
+            @Override
+            public void run() {
                 int maxSize = 0;
 
                 for (int i = 0; i < text.length(); i++) {
@@ -37,10 +38,6 @@ public class Main {
                 }
                 System.out.println(text.substring(0, 100) + " -> " + maxSize);
             }
-
-            public void run() {
-                process();
-            }
         }
         long startTs = System.currentTimeMillis(); // start time
         List<Thread> threads = new ArrayList<>();
@@ -49,12 +46,13 @@ public class Main {
             threads.add(new Thread(new ProcessText(texts[i])));
         }
 
-
         for (Thread thread : threads) {
             thread.start();
-            thread.join();
         }
 
+        for (Thread thread : threads) {
+            thread.join();
+        }
 
         long endTs = System.currentTimeMillis(); // end time
 
